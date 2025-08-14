@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
           });
 
           newArticlesCount++;
-        } catch (createError) {
+        } catch (createError: any) {
           // Handle duplicate constraint error gracefully
           if (createError.code === 'P2002') {
             console.log(`Article with link ${article.link} already exists, skipping...`);
