@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Feed {
+  id          String    @id @default(cuid())
+  name        String
+  url         String    @unique
+  description String?
+  isActive    Boolean   @default(true)
+  lastFetched DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  articles    Article[]
+}
+
+model Article {
+  id               String           @id @default(cuid())
+  feedId           String
+  title            String
+  description      String?
+  content          String?
+  author           String?
+  link             String           @unique
+  guid             String?
+  pubDate          DateTime?
+  imageUrl         String?
+  isRead           Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  feed             Feed             @relation(fields: [feedId], references: [id], onDelete: Cascade)
+  aiEvaluation     AiEvaluation?
+  
+  @@index([feedId])
+  @@index([pubDate])
+  @@index([isRead])
+}
+
+model AiEvaluation {
+  id              String   @id @default(cuid())
+  articleId       String   @unique
+  relevanceScore  Int      
+  keyReasons      String
+  suggestedActions String?
+  categories      String
+  priority        String
+  summary         String?
+  scoreBreakdown  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  article         Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  
+  @@index([relevanceScore])
+  @@index([priority])
+}
