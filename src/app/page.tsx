@@ -13,13 +13,14 @@ export default function HomePage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    // Redirect to login if not authenticated
-    if (!loading && !user) {
-      console.log('Redirecting to login - no authenticated user');
-      router.push('/login');
-    }
-  }, [user, loading, router]);
+  // Temporarily disable authentication redirect for testing
+  // useEffect(() => {
+  //   // Redirect to login if not authenticated
+  //   if (!loading && !user) {
+  //     console.log('Redirecting to login - no authenticated user');
+  //     router.push('/login');
+  //   }
+  // }, [user, loading, router]);
 
   if (loading) {
     return (
@@ -32,15 +33,16 @@ export default function HomePage() {
     );
   }
 
-  if (!user) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <p className="text-gray-600">Redirecting to login...</p>
-        </div>
-      </div>
-    );
-  }
+  // Temporarily allow access without authentication
+  // if (!user) {
+  //   return (
+  //     <div className="h-screen flex items-center justify-center bg-gray-50">
+  //       <div className="text-center">
+  //         <p className="text-gray-600">Redirecting to login...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="h-screen flex">
