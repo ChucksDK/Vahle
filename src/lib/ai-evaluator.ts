@@ -1,8 +1,8 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-});
+}) : null;
 
 export interface AIEvaluationResult {
   relevanceScore: number;
@@ -72,6 +72,22 @@ export async function evaluateArticle(
   description?: string | null
 ): Promise<AIEvaluationResult> {
   try {
+    // If OpenAI is not configured, return a mock evaluation
+    if (!openai) {
+      return {
+        relevanceScore: 50,
+        keyReasons: JSON.stringify(['OpenAI not configured - mock evaluation']),
+        categories: JSON.stringify(['General']),
+        priority: 'MEDIUM',
+        scoreBreakdown: JSON.stringify({
+          customerTypes: 15,
+          projectTypes: 15,
+          targetSectors: 15,
+          keywords: 5
+        })
+      };
+    }
+
     // If we have no content at all, provide a basic evaluation based on title only
     if (!title || title.trim() === '') {
       return {
