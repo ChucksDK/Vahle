@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+// import { useAuth } from '@/contexts/AuthContext'; // Temporarily disabled
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -49,7 +49,12 @@ export function Sidebar({
   const [feeds, setFeeds] = useState<Feed[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const { user, signOut } = useAuth();
+  // Mock user data for now - no auth dependencies
+  const user = { email: 'demo@example.com' };
+  const signOut = async () => {
+    console.log('Logout functionality will be restored');
+    alert('App is working! Logout will be restored next.');
+  };
   const router = useRouter();
 
   const fetchFeeds = async () => {
