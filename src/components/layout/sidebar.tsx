@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// import { useAuth } from '@/contexts/AuthContext'; // Temporarily disabled
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -49,12 +49,7 @@ export function Sidebar({
   const [feeds, setFeeds] = useState<Feed[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  // Mock user data - replace with real authentication when needed
-  const user = { email: 'user@example.com' };
-  const signOut = async () => {
-    console.log('Logout functionality - integrate with auth system');
-    // TODO: Implement actual logout functionality
-  };
+  const { user, signOut } = useAuth();
   const router = useRouter();
 
   const fetchFeeds = async () => {

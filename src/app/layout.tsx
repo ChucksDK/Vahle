@@ -23,7 +23,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ErrorBoundary>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ErrorBoundary>
       </body>
     </html>
